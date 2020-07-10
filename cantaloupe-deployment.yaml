@@ -1,0 +1,62 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.enable: "true"
+    traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent: "true"
+    traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme: https
+    traefik.http.routers.idc-cantaloupe_http.entrypoints: http
+    traefik.http.routers.idc-cantaloupe_http.middlewares: cantaloupe-redirectscheme
+    traefik.http.routers.idc-cantaloupe_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+      && PathPrefix(`/cantaloupe`)
+    traefik.http.routers.idc-cantaloupe_http.service: idc-cantaloupe
+    traefik.http.routers.idc-cantaloupe_https.entrypoints: https
+    traefik.http.routers.idc-cantaloupe_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+      && PathPrefix(`/cantaloupe`)
+    traefik.http.routers.idc-cantaloupe_https.tls: "true"
+    traefik.http.services.idc-cantaloupe.loadbalancer.server.port: "80"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: cantaloupe
+  name: cantaloupe
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.enable: "true"
+        traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent: "true"
+        traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme: https
+        traefik.http.routers.idc-cantaloupe_http.entrypoints: http
+        traefik.http.routers.idc-cantaloupe_http.middlewares: cantaloupe-redirectscheme
+        traefik.http.routers.idc-cantaloupe_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+          && PathPrefix(`/cantaloupe`)
+        traefik.http.routers.idc-cantaloupe_http.service: idc-cantaloupe
+        traefik.http.routers.idc-cantaloupe_https.entrypoints: https
+        traefik.http.routers.idc-cantaloupe_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+          && PathPrefix(`/cantaloupe`)
+        traefik.http.routers.idc-cantaloupe_https.tls: "true"
+        traefik.http.services.idc-cantaloupe.loadbalancer.server.port: "80"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: cantaloupe
+    spec:
+      containers:
+      - image: islandora/cantaloupe:latest
+        name: cantaloupe
+        resources: {}
+        volumeMounts:
+        - mountPath: /data
+          name: cantaloupe-data
+      restartPolicy: Always
+      volumes:
+      - name: cantaloupe-data
+        persistentVolumeClaim:
+          claimName: cantaloupe-data
+status: {}

@@ -1,0 +1,133 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.enable: "true"
+    traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent: "true"
+    traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme: https
+    traefik.http.routers.idc-drupal_http.entrypoints: http
+    traefik.http.routers.idc-drupal_http.middlewares: drupal-redirectscheme
+    traefik.http.routers.idc-drupal_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+    traefik.http.routers.idc-drupal_http.service: idc-drupal
+    traefik.http.routers.idc-drupal_https.entrypoints: https
+    traefik.http.routers.idc-drupal_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+    traefik.http.routers.idc-drupal_https.tls: "true"
+    traefik.http.services.idc-drupal.loadbalancer.server.port: "80"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: drupal
+  name: drupal
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.enable: "true"
+        traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent: "true"
+        traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme: https
+        traefik.http.routers.idc-drupal_http.entrypoints: http
+        traefik.http.routers.idc-drupal_http.middlewares: drupal-redirectscheme
+        traefik.http.routers.idc-drupal_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+        traefik.http.routers.idc-drupal_http.service: idc-drupal
+        traefik.http.routers.idc-drupal_https.entrypoints: https
+        traefik.http.routers.idc-drupal_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
+        traefik.http.routers.idc-drupal_https.tls: "true"
+        traefik.http.services.idc-drupal.loadbalancer.server.port: "80"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: drupal
+    spec:
+      containers:
+      - env:
+        - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
+          value: admin@example.org
+        - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+          value: password
+        - name: DRUPAL_DEFAULT_CANTALOUPE_URL
+          value: http://islandora.idc.localhost/cantaloupe/iiif/2
+        - name: DRUPAL_DEFAULT_CONFIGDIR
+          value: /var/www/drupal/config/sync
+        - name: DRUPAL_DEFAULT_DB_PASSWORD
+          value: password
+        - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+          value: password
+        - name: DRUPAL_DEFAULT_FCREPO_HOST
+          value: fcrepo.idc.localhost
+        - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
+          value: "true"
+        - name: DRUPAL_DEFAULT_MATOMO_URL
+          value: http://islandora.idc.localhost/matomo/
+        - name: DRUPAL_DEFAULT_PROFILE
+          value: minimal
+        - name: DRUPAL_DEFAULT_SALT
+          value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+        - name: DRUPAL_DEFAULT_SITE_URL
+          value: http://islandora.idc.localhost
+        - name: DRUPAL_JWT_PRIVATE_KEY
+          value: |-
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpAIBAAKCAQEA6uK3nozywVaRCAB3FHdRZNHunSZvN/c31QimZAqQMGxj7JrG
+            h1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2wARr/9abIwG5QeNsrJ8GMt3Z/WICn
+            NeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRKsk0BfFSMh+4u3JAdD9tUxUx6AAUX
+            UCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80Xrrsu1PYATgrsy69stzCln3KlO5O
+            xc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9Pa3SNje4UXN+/1xUfQskxafP8CKVS
+            r8xxtwzSureiskb5/98moAiutpUtp15yyAm0rwIDAQABAoIBAA0PZh5OwAC4C4Bi
+            ZjyhFcmBUr8yL+Twvg3+WSIe5D2NCVFSmc9UbuUdmnaoIIlrf61p6Vo88VCMVfWR
+            Z3iFj0/AbJMAHxF0EM1nglLHlEdvM018ec+pbaPeq4LTeA/dfGgDmcyQ53b1lO30
+            KMt5st2PIpIDMX0tZTWmXbdP/rqplqiQmdwH0gv8PzEG6Y2ZVLBf5viH5IvVRpg7
+            9nDqLfe2W2ylFib+CtleX626xTUzGcJ0aqTRP1UkY4Jj5PI2/yVqttYPkvJtxZco
+            5/14AEMcu9FMBhADCSk/0y1TkKCGsi6/VNd78AB/RrZK32HfHCwTwxoXHQoaVKq6
+            hNQfokECgYEA+keGdVJrXMDylamARQdDe/nNgljqZZhfkKKYCGeckNqjp3iqfmld
+            /tqCPVxAO2mIo8dNNfM2MMv6loEPx9F2REe8k9NbWFrUZ486fMHPeO7WnHt92JyU
+            DtfJJSZ1GdCki1PthmpmP8WdoF6VpLvr5AgwuYKAzkMNth+OV/dvgqkCgYEA8EEe
+            E3mKvePHV/PVsLt6TaqJcZEKKu6L9EgeDyzv3zz4+2zG8MVctyUFyfSl4EIC/oJy
+            X0T5Tj1l4A3mPwZOJfQOkXnr9TaPNff1zjNx12RhUZjFtJU5V+Wn1ldtzs+XwCFc
+            x5O/B8LWYgV4bOixNlc6tTRq/m8Txvtde9vPa5cCgYEA3OOdnxRD31QHheFYbRPx
+            Eo0xPNae4VWvGmb2SYywmQPuplMQHot+Qvy1L9SoeAc3alzvHytta3nLy2NS+yc5
+            +x9ZJxrGJt/bUR8PHqarJu+ch/VR54ih/8uhImGjvknvv2wuWZC0d5pA+RYheofE
+            tLgp0MCGUATMKC4HokmmqCkCgYBEjoBTlFIn33CJw3WNyeGbefdgZb/eAlYDbfTN
+            5cfJDvAJZr/aAqdzR2hAecQ/mvaZw4V5dAgj8Fc6uRyjjVwNbngdwQm43km9X7VP
+            ktSAXw96Jjr8TbygPVNIUYhvBEPMOnjsJlfTkiB0thToFvpChF+nR37kfbPKCv5h
+            Epc8nwKBgQCdKyLi54Fm24nqEuZYbAxxGI9TVT7wJjoKGn64JWrXtX7xRltmJC3t
+            nLwNCojcbyG4kVB+Myzr2OEtFkO45j83GjrZ4O+jCuSj+AmCxEcc7xNA9cgu9usG
+            sQXdGmIIB0Cbk54OyHNdsZgZCXi9GTRF9uvYZKL9qktS+UZMJ1Xz/g==
+            -----END RSA PRIVATE KEY-----
+        - name: DRUPAL_JWT_PUBLIC_KEY
+          value: |-
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+            ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+            ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+            sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+            Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+            a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+            rwIDAQAB
+            -----END PUBLIC KEY-----
+        image: islandora/drupal:latest
+        name: drupal
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/solr/server/solr
+          name: solr-data
+        - mountPath: /var/www/drupal
+          name: drupal-claim1
+        - mountPath: /var/www/drupal/web/sites/default/files
+          name: drupal-sites-data
+      restartPolicy: Always
+      volumes:
+      - name: solr-data
+        persistentVolumeClaim:
+          claimName: solr-data
+      - name: drupal-claim1
+        persistentVolumeClaim:
+          claimName: drupal-claim1
+      - name: drupal-sites-data
+        persistentVolumeClaim:
+          claimName: drupal-sites-data
+status: {}

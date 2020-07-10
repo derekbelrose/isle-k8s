@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.enable: "true"
+    traefik.http.routers.idc-activemq_http.entrypoints: http
+    traefik.http.routers.idc-activemq_http.service: idc-activemq
+    traefik.http.services.idc-activemq.loadbalancer.server.port: "8161"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: activemq
+  name: activemq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.enable: "true"
+        traefik.http.routers.idc-activemq_http.entrypoints: http
+        traefik.http.routers.idc-activemq_http.service: idc-activemq
+        traefik.http.services.idc-activemq.loadbalancer.server.port: "8161"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: activemq
+    spec:
+      containers:
+      - env:
+        - name: ACTIVEMQ_PASSWORD
+          value: password
+        - name: ACTIVEMQ_WEB_ADMIN_PASSWORD
+          value: password
+        image: islandora/activemq:latest
+        name: activemq
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/activemq/data
+          name: activemq-data
+      restartPolicy: Always
+      volumes:
+      - name: activemq-data
+        persistentVolumeClaim:
+          claimName: activemq-data
+status: {}

@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: alpaca
+  name: alpaca
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: alpaca
+    spec:
+      containers:
+      - env:
+        - name: ALPACA_ACTIVEMQ_PASSWORD
+          value: password
+        - name: ALPACA_KARAF_ADMIN_PASSWORD
+          value: password
+        image: islandora/alpaca:latest
+        name: alpaca
+        resources: {}
+      restartPolicy: Always
+status: {}

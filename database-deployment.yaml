@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.enable: "true"
+    traefik.tcp.routers.idc-database_tcp.entrypoints: database
+    traefik.tcp.routers.idc-database_tcp.rule: HostSNI(`*`)
+    traefik.tcp.routers.idc-database_tcp.service: idc-database
+    traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: database
+  name: database
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.enable: "true"
+        traefik.tcp.routers.idc-database_tcp.entrypoints: database
+        traefik.tcp.routers.idc-database_tcp.rule: HostSNI(`*`)
+        traefik.tcp.routers.idc-database_tcp.service: idc-database
+        traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: database
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        image: islandora/mariadb:latest
+        name: database
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadb-data
+        - mountPath: /var/lib/mysql-files
+          name: mariadb-files
+      restartPolicy: Always
+      volumes:
+      - name: mariadb-data
+        persistentVolumeClaim:
+          claimName: mariadb-data
+      - name: mariadb-files
+        persistentVolumeClaim:
+          claimName: mariadb-files
+status: {}

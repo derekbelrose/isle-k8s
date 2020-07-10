@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.enable: "true"
+    traefik.http.routers.idc-solr_http.entrypoints: http
+    traefik.http.routers.idc-solr_http.service: idc-solr
+    traefik.http.services.idc-solr.loadbalancer.server.port: "8983"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: solr
+  name: solr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.enable: "true"
+        traefik.http.routers.idc-solr_http.entrypoints: http
+        traefik.http.routers.idc-solr_http.service: idc-solr
+        traefik.http.services.idc-solr.loadbalancer.server.port: "8983"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: solr
+    spec:
+      containers:
+      - image: islandora/solr:latest
+        name: solr
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/solr/server/solr
+          name: solr-data
+      restartPolicy: Always
+      volumes:
+      - name: solr-data
+        persistentVolumeClaim:
+          claimName: solr-data
+status: {}

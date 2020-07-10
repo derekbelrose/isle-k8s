@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+    traefik.http.routers.api.service: api@internal
+  creationTimestamp: null
+  labels:
+    io.kompose.service: traefik
+  name: traefik
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+        traefik.http.routers.api.service: api@internal
+      creationTimestamp: null
+      labels:
+        io.kompose.service: traefik
+    spec:
+      containers:
+      - args:
+        - --api.insecure=true
+        - --api.dashboard=true
+        - --api.debug=true
+        - --entryPoints.http.address=:80
+        - --entryPoints.https.address=:443
+        - --entryPoints.database.address=:3306
+        - --providers.docker
+        - --providers.docker.network=gateway
+        - --providers.docker.exposedByDefault=false
+        - --providers.file.filename=/etc/traefik/tls.yml
+        - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service"
+          }}-{{ index .Labels "com.docker.compose.project" }}.traefik.me`,`{{ index
+          .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project"
+          }}-traefik.me`)
+        image: traefik:2.2.1
+        name: traefik
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 3306
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - mountPath: /etc/ssl/traefik
+          name: traefik-claim0
+        - mountPath: /etc/traefik/tls.yml
+          name: traefik-claim1
+        - mountPath: /var/run/docker.sock
+          name: traefik-claim2
+      restartPolicy: Always
+      volumes:
+      - name: traefik-claim0
+        persistentVolumeClaim:
+          claimName: traefik-claim0
+      - name: traefik-claim1
+        persistentVolumeClaim:
+          claimName: traefik-claim1
+      - name: traefik-claim2
+        persistentVolumeClaim:
+          claimName: traefik-claim2
+status: {}
