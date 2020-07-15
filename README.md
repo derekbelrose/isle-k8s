@@ -22,3 +22,11 @@ kubectl -n isle-development apply -k base/
 ``` 
 
 This will create volumes using hostpath directories and Persistent Volume Claims for all of those. No are setup for ingress or access outside of the cluster yet.
+
+To tear down this environment, perform the following:
+```bash
+kubectl -n isle-development delete -k base/
+kubectl delete namespace isle-development
+```
+
+Future versions of the patches will create and destroy the namespace for you.
