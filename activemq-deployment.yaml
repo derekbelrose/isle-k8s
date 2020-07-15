@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -10,10 +10,13 @@ metadata:
     traefik.http.services.idc-activemq.loadbalancer.server.port: "8161"
   creationTimestamp: null
   labels:
-    io.kompose.service: activemq
+    app: activemq
   name: activemq
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
   strategy:
     type: Recreate
   template:
@@ -27,7 +30,7 @@ spec:
         traefik.http.services.idc-activemq.loadbalancer.server.port: "8161"
       creationTimestamp: null
       labels:
-        io.kompose.service: activemq
+        app: activemq
     spec:
       containers:
       - env:

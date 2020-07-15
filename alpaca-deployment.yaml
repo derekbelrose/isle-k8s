@@ -1,15 +1,14 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: ../kompose convert
-    kompose.version: 1.19.0 (f63a961c)
-  creationTimestamp: null
   labels:
-    io.kompose.service: alpaca
+    app: alpaca
   name: alpaca
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: alpaca
   strategy: {}
   template:
     metadata:
@@ -18,7 +17,7 @@ spec:
         kompose.version: 1.19.0 (f63a961c)
       creationTimestamp: null
       labels:
-        io.kompose.service: alpaca
+        app: alpaca
     spec:
       containers:
       - env:
