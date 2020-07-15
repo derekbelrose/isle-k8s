@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -6,10 +6,13 @@ metadata:
     kompose.version: 1.19.0 (f63a961c)
   creationTimestamp: null
   labels:
-    io.kompose.service: crayfits
+    app: crayfits
   name: crayfits
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: crayfits
   strategy: {}
   template:
     metadata:
@@ -18,7 +21,7 @@ spec:
         kompose.version: 1.19.0 (f63a961c)
       creationTimestamp: null
       labels:
-        io.kompose.service: crayfits
+        app: crayfits
     spec:
       containers:
       - image: islandora/crayfits:latest
