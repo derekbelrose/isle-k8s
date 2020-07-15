@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -11,10 +11,13 @@ metadata:
     traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
   creationTimestamp: null
   labels:
-    io.kompose.service: database
+    app: database
   name: database
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: database
   strategy:
     type: Recreate
   template:
@@ -27,9 +30,8 @@ spec:
         traefik.tcp.routers.idc-database_tcp.rule: HostSNI(`*`)
         traefik.tcp.routers.idc-database_tcp.service: idc-database
         traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
-      creationTimestamp: null
       labels:
-        io.kompose.service: database
+        app: database
     spec:
       containers:
       - env:
