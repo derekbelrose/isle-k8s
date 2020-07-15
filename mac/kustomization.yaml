@@ -1,0 +1,9 @@
+apiversion: v1
+kind: Kustomization
+
+namespace: isle-development
+bases:
+  - ../base
+  
+# resources:
+#   - activemq-data-persistentvolume.yaml

@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./activemq-data-persistentvolumeclaim.yaml
+  - ./activemq-deployment.yaml
+  - ./alpaca-deployment.yaml
+  - ./cantaloupe-data-persistentvolumeclaim.yaml
+  - ./cantaloupe-deployment.yaml
+  - ./crayfits-deployment.yaml
+  - ./database-deployment.yaml
+  - ./drupal-claim1-persistentvolumeclaim.yaml
+  - ./drupal-deployment.yaml
+  - ./drupal-sites-data-persistentvolumeclaim.yaml
+  - ./fits-deployment.yaml
+  - ./gemini-deployment.yaml
+  - ./homarus-deployment.yaml
+  - ./hypercube-deployment.yaml
+  - ./mariadb-data-persistentvolumeclaim.yaml
+  - ./mariadb-files-persistentvolumeclaim.yaml
+  - ./matomo-config-data-persistentvolumeclaim.yaml
+  - ./matomo-deployment.yaml
+  - ./milliner-deployment.yaml
+  - ./recast-deployment.yaml
+  - ./solr-data-persistentvolumeclaim.yaml
+  - ./solr-deployment.yaml
