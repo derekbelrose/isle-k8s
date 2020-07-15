@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -8,9 +8,13 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: traefik
+    app: traefik
   name: traefik
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
   strategy:
     type: Recreate
   template:
@@ -22,6 +26,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.service: traefik
+        app: traefik
     spec:
       containers:
       - args:

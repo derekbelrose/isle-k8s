@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -7,9 +7,13 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: hypercube
+    app: hypercude
   name: hypercube
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: hypercube
   strategy: {}
   template:
     metadata:
@@ -19,6 +23,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.service: hypercube
+        app: hypercube
     spec:
       containers:
       - env:

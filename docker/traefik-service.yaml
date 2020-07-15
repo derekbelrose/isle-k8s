@@ -8,6 +8,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: traefik
+    app: traefik
   name: traefik
 spec:
   ports:
@@ -24,6 +25,6 @@ spec:
     port: 8080
     targetPort: 8080
   selector:
-    io.kompose.service: traefik
+    app: traefik
 status:
   loadBalancer: {}

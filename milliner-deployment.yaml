@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -6,10 +6,14 @@ metadata:
     kompose.version: 1.19.0 (f63a961c)
   creationTimestamp: null
   labels:
+    app: milliner 
     io.kompose.service: milliner
   name: milliner
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: milliner
   strategy: {}
   template:
     metadata:
@@ -19,6 +23,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.service: milliner
+        app: milliner
     spec:
       containers:
       - image: islandora/milliner:latest

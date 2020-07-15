@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -11,9 +11,13 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: solr
+    app: solr
   name: solr
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: solr
   strategy:
     type: Recreate
   template:
@@ -28,6 +32,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.service: solr
+        app: solr
     spec:
       containers:
       - image: islandora/solr:latest

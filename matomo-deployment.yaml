@@ -1,32 +1,19 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
     kompose.cmd: ../kompose convert
     kompose.version: 1.19.0 (f63a961c)
-    traefik.enable: "true"
-    traefik.http.middlewares.idc-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /matomo
-    traefik.http.middlewares.idc-matomo-redirectscheme.redirectscheme.permanent: "true"
-    traefik.http.middlewares.idc-matomo-redirectscheme.redirectscheme.scheme: https
-    traefik.http.middlewares.idc-matomo-stripprefix.stripprefix.prefixes: /matomo
-    traefik.http.middlewares.idc-matomo.chain.middlewares: idc-matomo-stripprefix,idc-matomo-customrequestheaders
-    traefik.http.routers.idc-matomo_http.entrypoints: http
-    traefik.http.routers.idc-matomo_http.middlewares: idc-matomo-redirectscheme
-    traefik.http.routers.idc-matomo_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
-      && PathPrefix(`/matomo`)
-    traefik.http.routers.idc-matomo_http.service: idc-matomo
-    traefik.http.routers.idc-matomo_https.entrypoints: https
-    traefik.http.routers.idc-matomo_https.middlewares: idc-matomo
-    traefik.http.routers.idc-matomo_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
-      && PathPrefix(`/matomo`)
-    traefik.http.routers.idc-matomo_https.tls: "true"
-    traefik.http.services.idc-matomo.loadbalancer.server.port: "80"
   creationTimestamp: null
   labels:
+    app: matomo
     io.kompose.service: matomo
   name: matomo
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: matomo
   strategy:
     type: Recreate
   template:
@@ -34,25 +21,8 @@ spec:
       annotations:
         kompose.cmd: ../kompose convert
         kompose.version: 1.19.0 (f63a961c)
-        traefik.enable: "true"
-        traefik.http.middlewares.idc-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /matomo
-        traefik.http.middlewares.idc-matomo-redirectscheme.redirectscheme.permanent: "true"
-        traefik.http.middlewares.idc-matomo-redirectscheme.redirectscheme.scheme: https
-        traefik.http.middlewares.idc-matomo-stripprefix.stripprefix.prefixes: /matomo
-        traefik.http.middlewares.idc-matomo.chain.middlewares: idc-matomo-stripprefix,idc-matomo-customrequestheaders
-        traefik.http.routers.idc-matomo_http.entrypoints: http
-        traefik.http.routers.idc-matomo_http.middlewares: idc-matomo-redirectscheme
-        traefik.http.routers.idc-matomo_http.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
-          && PathPrefix(`/matomo`)
-        traefik.http.routers.idc-matomo_http.service: idc-matomo
-        traefik.http.routers.idc-matomo_https.entrypoints: https
-        traefik.http.routers.idc-matomo_https.middlewares: idc-matomo
-        traefik.http.routers.idc-matomo_https.rule: Host(`islandora-idc.traefik.me`,`islandora-idc-traefik.me`)
-          && PathPrefix(`/matomo`)
-        traefik.http.routers.idc-matomo_https.tls: "true"
-        traefik.http.services.idc-matomo.loadbalancer.server.port: "80"
-      creationTimestamp: null
       labels:
+        app: matomo
         io.kompose.service: matomo
     spec:
       containers:

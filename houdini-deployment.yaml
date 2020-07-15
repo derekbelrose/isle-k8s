@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -6,10 +6,13 @@ metadata:
     kompose.version: 1.19.0 (f63a961c)
   creationTimestamp: null
   labels:
-    io.kompose.service: houdini
+    app: houdini
   name: houdini
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: houdini
   strategy: {}
   template:
     metadata:
@@ -19,6 +22,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.service: houdini
+        app: houdini
     spec:
       containers:
       - env:
