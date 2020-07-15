@@ -1,13 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: ../kompose convert
-    kompose.version: 1.19.0 (f63a961c)
-  creationTimestamp: null
   labels:
-    app: milliner 
-    io.kompose.service: milliner
+    app: milliner
   name: milliner
 spec:
   replicas: 1
@@ -17,12 +12,7 @@ spec:
   strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: ../kompose convert
-        kompose.version: 1.19.0 (f63a961c)
-      creationTimestamp: null
       labels:
-        io.kompose.service: milliner
         app: milliner
     spec:
       containers:

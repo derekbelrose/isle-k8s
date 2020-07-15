@@ -1,15 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: ../kompose convert
-    kompose.version: 1.19.0 (f63a961c)
-    traefik.enable: "true"
-    traefik.tcp.routers.idc-database_tcp.entrypoints: database
-    traefik.tcp.routers.idc-database_tcp.rule: HostSNI(`*`)
-    traefik.tcp.routers.idc-database_tcp.service: idc-database
-    traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
-  creationTimestamp: null
   labels:
     app: database
   name: database
@@ -22,14 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: ../kompose convert
-        kompose.version: 1.19.0 (f63a961c)
-        traefik.enable: "true"
-        traefik.tcp.routers.idc-database_tcp.entrypoints: database
-        traefik.tcp.routers.idc-database_tcp.rule: HostSNI(`*`)
-        traefik.tcp.routers.idc-database_tcp.service: idc-database
-        traefik.tcp.services.idc-database.loadbalancer.server.port: "3306"
       labels:
         app: database
     spec:

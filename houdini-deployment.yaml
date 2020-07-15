@@ -2,9 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: ../kompose convert
-    kompose.version: 1.19.0 (f63a961c)
-  creationTimestamp: null
   labels:
     app: houdini
   name: houdini
@@ -17,11 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: ../kompose convert
-        kompose.version: 1.19.0 (f63a961c)
-      creationTimestamp: null
       labels:
-        io.kompose.service: houdini
         app: houdini
     spec:
       containers:
