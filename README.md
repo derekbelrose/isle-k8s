@@ -40,6 +40,743 @@ Sometimes, we need to do things to make stuff work that isn't applicable to othe
 
 When run as `kubectl apply -k staffpatches/derek`, the kubectl software builds a graph knowing that it needs to create a namespace first then patches `namespace: derek-test` on all resources that are created.
 
+To see the generated YAML that kubectl will apply, the `--dry-run -o yaml` flags can be applied to `kubectl apply`:
+
+```
+kubectl apply -k staffpatchs/derek -o yaml --dry-run
+```
+        apiVersion: v1
+        items:
+        - apiVersion: v1
+        kind: Namespace
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"derek-test"}}
+            name: derek-test
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"activemq"},"name":"activemq","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"activemq"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"activemq"}},"spec":{"containers":[{"env":[{"name":"ACTIVEMQ_PASSWORD","value":"password"},{"name":"ACTIVEMQ_WEB_ADMIN_PASSWORD","value":"password"}],"image":"islandora/activemq:latest","name":"activemq","resources":{},"volumeMounts":[{"mountPath":"/opt/activemq/data","name":"activemq-data"}]}],"restartPolicy":"Always","volumes":[{"name":"activemq-data","persistentVolumeClaim":{"claimName":"activemq-data"}}]}}},"status":{}}
+            labels:
+            app: activemq
+            name: activemq
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: activemq
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: activemq
+            spec:
+                containers:
+                - env:
+                - name: ACTIVEMQ_PASSWORD
+                    value: password
+                - name: ACTIVEMQ_WEB_ADMIN_PASSWORD
+                    value: password
+                image: islandora/activemq:latest
+                name: activemq
+                resources: {}
+                volumeMounts:
+                - mountPath: /opt/activemq/data
+                    name: activemq-data
+                restartPolicy: Always
+                volumes:
+                - name: activemq-data
+                persistentVolumeClaim:
+                    claimName: activemq-data
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"alpaca"},"name":"alpaca","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"alpaca"}},"strategy":{},"template":{"metadata":{"labels":{"app":"alpaca"}},"spec":{"containers":[{"env":[{"name":"ALPACA_ACTIVEMQ_PASSWORD","value":"password"},{"name":"ALPACA_KARAF_ADMIN_PASSWORD","value":"password"}],"image":"islandora/alpaca:latest","name":"alpaca","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: alpaca
+            name: alpaca
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: alpaca
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: alpaca
+            spec:
+                containers:
+                - env:
+                - name: ALPACA_ACTIVEMQ_PASSWORD
+                    value: password
+                - name: ALPACA_KARAF_ADMIN_PASSWORD
+                    value: password
+                image: islandora/alpaca:latest
+                name: alpaca
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"cantaloupe","io.kompose.service":"cantaloupe"},"name":"cantaloupe","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"cantaloupe"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"cantaloupe"}},"spec":{"containers":[{"image":"islandora/cantaloupe:latest","name":"cantaloupe","resources":{},"volumeMounts":[{"mountPath":"/data","name":"cantaloupe-data"}]}],"restartPolicy":"Always","volumes":[{"name":"cantaloupe-data","persistentVolumeClaim":{"claimName":"cantaloupe-data"}}]}}},"status":{}}
+            labels:
+            app: cantaloupe
+            io.kompose.service: cantaloupe
+            name: cantaloupe
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: cantaloupe
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: cantaloupe
+            spec:
+                containers:
+                - image: islandora/cantaloupe:latest
+                name: cantaloupe
+                resources: {}
+                volumeMounts:
+                - mountPath: /data
+                    name: cantaloupe-data
+                restartPolicy: Always
+                volumes:
+                - name: cantaloupe-data
+                persistentVolumeClaim:
+                    claimName: cantaloupe-data
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"crayfits"},"name":"crayfits","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"crayfits"}},"strategy":{},"template":{"metadata":{"labels":{"app":"crayfits"}},"spec":{"containers":[{"image":"islandora/crayfits:latest","name":"crayfits","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: crayfits
+            name: crayfits
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: crayfits
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: crayfits
+            spec:
+                containers:
+                - image: islandora/crayfits:latest
+                name: crayfits
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"database"},"name":"database","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"database"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"database"}},"spec":{"containers":[{"env":[{"name":"MYSQL_ROOT_PASSWORD","value":"password"}],"image":"islandora/mariadb:latest","name":"database","resources":{},"volumeMounts":[{"mountPath":"/var/lib/mysql","name":"mariadb-data"},{"mountPath":"/var/lib/mysql-files","name":"mariadb-files"}]}],"restartPolicy":"Always","volumes":[{"name":"mariadb-data","persistentVolumeClaim":{"claimName":"mariadb-data"}},{"name":"mariadb-files","persistentVolumeClaim":{"claimName":"mariadb-files"}}]}}},"status":{}}
+            labels:
+            app: database
+            name: database
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: database
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: database
+            spec:
+                containers:
+                - env:
+                - name: MYSQL_ROOT_PASSWORD
+                    value: password
+                image: islandora/mariadb:latest
+                name: database
+                resources: {}
+                volumeMounts:
+                - mountPath: /var/lib/mysql
+                    name: mariadb-data
+                - mountPath: /var/lib/mysql-files
+                    name: mariadb-files
+                restartPolicy: Always
+                volumes:
+                - name: mariadb-data
+                persistentVolumeClaim:
+                    claimName: mariadb-data
+                - name: mariadb-files
+                persistentVolumeClaim:
+                    claimName: mariadb-files
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"drupal","io.kompose.service":"drupal"},"name":"drupal","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"drupal"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"drupal","io.kompose.service":"drupal"}},"spec":{"containers":[{"env":[{"name":"DRUPAL_DEFAULT_ACCOUNT_EMAIL","value":"admin@example.org"},{"name":"DRUPAL_DEFAULT_ACCOUNT_PASSWORD","value":"password"},{"name":"DRUPAL_DEFAULT_CANTALOUPE_URL","value":"http://islandora.idc.localhost/cantaloupe/iiif/2"},{"name":"DRUPAL_DEFAULT_CONFIGDIR","value":"/var/www/drupal/config/sync"},{"name":"DRUPAL_DEFAULT_DB_PASSWORD","value":"password"},{"name":"DRUPAL_DEFAULT_DB_ROOT_PASSWORD","value":"password"},{"name":"DRUPAL_DEFAULT_FCREPO_HOST","value":"fcrepo.idc.localhost"},{"name":"DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG","value":"true"},{"name":"DRUPAL_DEFAULT_MATOMO_URL","value":"http://islandora.idc.localhost/matomo/"},{"name":"DRUPAL_DEFAULT_PROFILE","value":"minimal"},{"name":"DRUPAL_DEFAULT_SALT","value":"9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg"},{"name":"DRUPAL_DEFAULT_SITE_URL","value":"http://islandora.idc.localhost"},{"name":"DRUPAL_JWT_PRIVATE_KEY","value":"-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA6uK3nozywVaRCAB3FHdRZNHunSZvN/c31QimZAqQMGxj7JrG\nh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2wARr/9abIwG5QeNsrJ8GMt3Z/WICn\nNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRKsk0BfFSMh+4u3JAdD9tUxUx6AAUX\nUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80Xrrsu1PYATgrsy69stzCln3KlO5O\nxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9Pa3SNje4UXN+/1xUfQskxafP8CKVS\nr8xxtwzSureiskb5/98moAiutpUtp15yyAm0rwIDAQABAoIBAA0PZh5OwAC4C4Bi\nZjyhFcmBUr8yL+Twvg3+WSIe5D2NCVFSmc9UbuUdmnaoIIlrf61p6Vo88VCMVfWR\nZ3iFj0/AbJMAHxF0EM1nglLHlEdvM018ec+pbaPeq4LTeA/dfGgDmcyQ53b1lO30\nKMt5st2PIpIDMX0tZTWmXbdP/rqplqiQmdwH0gv8PzEG6Y2ZVLBf5viH5IvVRpg7\n9nDqLfe2W2ylFib+CtleX626xTUzGcJ0aqTRP1UkY4Jj5PI2/yVqttYPkvJtxZco\n5/14AEMcu9FMBhADCSk/0y1TkKCGsi6/VNd78AB/RrZK32HfHCwTwxoXHQoaVKq6\nhNQfokECgYEA+keGdVJrXMDylamARQdDe/nNgljqZZhfkKKYCGeckNqjp3iqfmld\n/tqCPVxAO2mIo8dNNfM2MMv6loEPx9F2REe8k9NbWFrUZ486fMHPeO7WnHt92JyU\nDtfJJSZ1GdCki1PthmpmP8WdoF6VpLvr5AgwuYKAzkMNth+OV/dvgqkCgYEA8EEe\nE3mKvePHV/PVsLt6TaqJcZEKKu6L9EgeDyzv3zz4+2zG8MVctyUFyfSl4EIC/oJy\nX0T5Tj1l4A3mPwZOJfQOkXnr9TaPNff1zjNx12RhUZjFtJU5V+Wn1ldtzs+XwCFc\nx5O/B8LWYgV4bOixNlc6tTRq/m8Txvtde9vPa5cCgYEA3OOdnxRD31QHheFYbRPx\nEo0xPNae4VWvGmb2SYywmQPuplMQHot+Qvy1L9SoeAc3alzvHytta3nLy2NS+yc5\n+x9ZJxrGJt/bUR8PHqarJu+ch/VR54ih/8uhImGjvknvv2wuWZC0d5pA+RYheofE\ntLgp0MCGUATMKC4HokmmqCkCgYBEjoBTlFIn33CJw3WNyeGbefdgZb/eAlYDbfTN\n5cfJDvAJZr/aAqdzR2hAecQ/mvaZw4V5dAgj8Fc6uRyjjVwNbngdwQm43km9X7VP\nktSAXw96Jjr8TbygPVNIUYhvBEPMOnjsJlfTkiB0thToFvpChF+nR37kfbPKCv5h\nEpc8nwKBgQCdKyLi54Fm24nqEuZYbAxxGI9TVT7wJjoKGn64JWrXtX7xRltmJC3t\nnLwNCojcbyG4kVB+Myzr2OEtFkO45j83GjrZ4O+jCuSj+AmCxEcc7xNA9cgu9usG\nsQXdGmIIB0Cbk54OyHNdsZgZCXi9GTRF9uvYZKL9qktS+UZMJ1Xz/g==\n-----END RSA PRIVATE KEY-----"},{"name":"DRUPAL_JWT_PUBLIC_KEY","value":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR\nZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w\nARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK\nsk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80\nXrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P\na3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0\nrwIDAQAB\n-----END PUBLIC KEY-----"}],"image":"islandora/drupal:latest","name":"drupal","resources":{},"volumeMounts":[{"mountPath":"/opt/solr/server/solr","name":"solr-data"},{"mountPath":"/var/www/drupal","name":"drupal-claim1"},{"mountPath":"/var/www/drupal/web/sites/default/files","name":"drupal-sites-data"}]}],"restartPolicy":"Always","volumes":[{"name":"solr-data","persistentVolumeClaim":{"claimName":"solr-data"}},{"name":"drupal-claim1","persistentVolumeClaim":{"claimName":"drupal-claim1"}},{"name":"drupal-sites-data","persistentVolumeClaim":{"claimName":"drupal-sites-data"}}]}}},"status":{}}
+            labels:
+            app: drupal
+            io.kompose.service: drupal
+            name: drupal
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: drupal
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: drupal
+                io.kompose.service: drupal
+            spec:
+                containers:
+                - env:
+                - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
+                    value: admin@example.org
+                - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+                    value: password
+                - name: DRUPAL_DEFAULT_CANTALOUPE_URL
+                    value: http://islandora.idc.localhost/cantaloupe/iiif/2
+                - name: DRUPAL_DEFAULT_CONFIGDIR
+                    value: /var/www/drupal/config/sync
+                - name: DRUPAL_DEFAULT_DB_PASSWORD
+                    value: password
+                - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+                    value: password
+                - name: DRUPAL_DEFAULT_FCREPO_HOST
+                    value: fcrepo.idc.localhost
+                - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
+                    value: "true"
+                - name: DRUPAL_DEFAULT_MATOMO_URL
+                    value: http://islandora.idc.localhost/matomo/
+                - name: DRUPAL_DEFAULT_PROFILE
+                    value: minimal
+                - name: DRUPAL_DEFAULT_SALT
+                    value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+                - name: DRUPAL_DEFAULT_SITE_URL
+                    value: http://islandora.idc.localhost
+                - name: DRUPAL_JWT_PRIVATE_KEY
+                    value: |-
+                    -----BEGIN RSA PRIVATE KEY-----
+                    MIIEpAIBAAKCAQEA6uK3nozywVaRCAB3FHdRZNHunSZvN/c31QimZAqQMGxj7JrG
+                    h1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2wARr/9abIwG5QeNsrJ8GMt3Z/WICn
+                    NeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRKsk0BfFSMh+4u3JAdD9tUxUx6AAUX
+                    UCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80Xrrsu1PYATgrsy69stzCln3KlO5O
+                    xc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9Pa3SNje4UXN+/1xUfQskxafP8CKVS
+                    r8xxtwzSureiskb5/98moAiutpUtp15yyAm0rwIDAQABAoIBAA0PZh5OwAC4C4Bi
+                    ZjyhFcmBUr8yL+Twvg3+WSIe5D2NCVFSmc9UbuUdmnaoIIlrf61p6Vo88VCMVfWR
+                    Z3iFj0/AbJMAHxF0EM1nglLHlEdvM018ec+pbaPeq4LTeA/dfGgDmcyQ53b1lO30
+                    KMt5st2PIpIDMX0tZTWmXbdP/rqplqiQmdwH0gv8PzEG6Y2ZVLBf5viH5IvVRpg7
+                    9nDqLfe2W2ylFib+CtleX626xTUzGcJ0aqTRP1UkY4Jj5PI2/yVqttYPkvJtxZco
+                    5/14AEMcu9FMBhADCSk/0y1TkKCGsi6/VNd78AB/RrZK32HfHCwTwxoXHQoaVKq6
+                    hNQfokECgYEA+keGdVJrXMDylamARQdDe/nNgljqZZhfkKKYCGeckNqjp3iqfmld
+                    /tqCPVxAO2mIo8dNNfM2MMv6loEPx9F2REe8k9NbWFrUZ486fMHPeO7WnHt92JyU
+                    DtfJJSZ1GdCki1PthmpmP8WdoF6VpLvr5AgwuYKAzkMNth+OV/dvgqkCgYEA8EEe
+                    E3mKvePHV/PVsLt6TaqJcZEKKu6L9EgeDyzv3zz4+2zG8MVctyUFyfSl4EIC/oJy
+                    X0T5Tj1l4A3mPwZOJfQOkXnr9TaPNff1zjNx12RhUZjFtJU5V+Wn1ldtzs+XwCFc
+                    x5O/B8LWYgV4bOixNlc6tTRq/m8Txvtde9vPa5cCgYEA3OOdnxRD31QHheFYbRPx
+                    Eo0xPNae4VWvGmb2SYywmQPuplMQHot+Qvy1L9SoeAc3alzvHytta3nLy2NS+yc5
+                    +x9ZJxrGJt/bUR8PHqarJu+ch/VR54ih/8uhImGjvknvv2wuWZC0d5pA+RYheofE
+                    tLgp0MCGUATMKC4HokmmqCkCgYBEjoBTlFIn33CJw3WNyeGbefdgZb/eAlYDbfTN
+                    5cfJDvAJZr/aAqdzR2hAecQ/mvaZw4V5dAgj8Fc6uRyjjVwNbngdwQm43km9X7VP
+                    ktSAXw96Jjr8TbygPVNIUYhvBEPMOnjsJlfTkiB0thToFvpChF+nR37kfbPKCv5h
+                    Epc8nwKBgQCdKyLi54Fm24nqEuZYbAxxGI9TVT7wJjoKGn64JWrXtX7xRltmJC3t
+                    nLwNCojcbyG4kVB+Myzr2OEtFkO45j83GjrZ4O+jCuSj+AmCxEcc7xNA9cgu9usG
+                    sQXdGmIIB0Cbk54OyHNdsZgZCXi9GTRF9uvYZKL9qktS+UZMJ1Xz/g==
+                    -----END RSA PRIVATE KEY-----
+                - name: DRUPAL_JWT_PUBLIC_KEY
+                    value: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+                    ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+                    ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+                    sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+                    Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+                    a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+                    rwIDAQAB
+                    -----END PUBLIC KEY-----
+                image: islandora/drupal:latest
+                name: drupal
+                resources: {}
+                volumeMounts:
+                - mountPath: /opt/solr/server/solr
+                    name: solr-data
+                - mountPath: /var/www/drupal
+                    name: drupal-claim1
+                - mountPath: /var/www/drupal/web/sites/default/files
+                    name: drupal-sites-data
+                restartPolicy: Always
+                volumes:
+                - name: solr-data
+                persistentVolumeClaim:
+                    claimName: solr-data
+                - name: drupal-claim1
+                persistentVolumeClaim:
+                    claimName: drupal-claim1
+                - name: drupal-sites-data
+                persistentVolumeClaim:
+                    claimName: drupal-sites-data
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"fits"},"name":"fits","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"fits"}},"strategy":{},"template":{"metadata":{"labels":{"app":"fits"}},"spec":{"containers":[{"image":"islandora/fits:latest","name":"fits","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: fits
+            name: fits
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: fits
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: fits
+            spec:
+                containers:
+                - image: islandora/fits:latest
+                name: fits
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"gemini"},"name":"gemini","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"gemini"}},"strategy":{},"template":{"metadata":{"labels":{"app":"gemini"}},"spec":{"containers":[{"env":[{"name":"GEMINI_DB_PASSWORD","value":"password"},{"name":"GEMINI_DB_ROOT_PASSWORD","value":"password"},{"name":"GEMINI_JWT_ADMIN_TOKEN","value":"islandora"},{"name":"GEMINI_JWT_PUBLIC_KEY","value":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR\nZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w\nARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK\nsk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80\nXrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P\na3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0\nrwIDAQAB\n-----END PUBLIC KEY-----"}],"image":"islandora/gemini:latest","name":"gemini","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: gemini
+            name: gemini
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: gemini
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: gemini
+            spec:
+                containers:
+                - env:
+                - name: GEMINI_DB_PASSWORD
+                    value: password
+                - name: GEMINI_DB_ROOT_PASSWORD
+                    value: password
+                - name: GEMINI_JWT_ADMIN_TOKEN
+                    value: islandora
+                - name: GEMINI_JWT_PUBLIC_KEY
+                    value: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+                    ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+                    ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+                    sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+                    Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+                    a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+                    rwIDAQAB
+                    -----END PUBLIC KEY-----
+                image: islandora/gemini:latest
+                name: gemini
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"homarus"},"name":"homarus","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"homarus"}},"strategy":{},"template":{"metadata":{"annotations":null,"labels":{"app":"homarus"}},"spec":{"containers":[{"env":[{"name":"HOMARUS_JWT_ADMIN_TOKEN","value":"islandora"},{"name":"HOMARUS_JWT_PUBLIC_KEY","value":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR\nZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w\nARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK\nsk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80\nXrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P\na3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0\nrwIDAQAB\n-----END PUBLIC KEY-----"}],"image":"islandora/homarus:latest","name":"homarus","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: homarus
+            name: homarus
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: homarus
+            strategy: {}
+            template:
+            metadata:
+                annotations: null
+                labels:
+                app: homarus
+            spec:
+                containers:
+                - env:
+                - name: HOMARUS_JWT_ADMIN_TOKEN
+                    value: islandora
+                - name: HOMARUS_JWT_PUBLIC_KEY
+                    value: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+                    ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+                    ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+                    sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+                    Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+                    a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+                    rwIDAQAB
+                    -----END PUBLIC KEY-----
+                image: islandora/homarus:latest
+                name: homarus
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"hypercude","io.kompose.service":"hypercube"},"name":"hypercube","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"hypercube"}},"strategy":{},"template":{"metadata":{"labels":{"app":"hypercube"}},"spec":{"containers":[{"env":[{"name":"HYPERCUBE_JWT_ADMIN_TOKEN","value":"islandora"},{"name":"HYPERCUBE_JWT_PUBLIC_KEY","value":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR\nZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w\nARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK\nsk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80\nXrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P\na3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0\nrwIDAQAB\n-----END PUBLIC KEY-----"}],"image":"islandora/hypercube:latest","name":"hypercube","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: hypercude
+            io.kompose.service: hypercube
+            name: hypercube
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: hypercube
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: hypercube
+            spec:
+                containers:
+                - env:
+                - name: HYPERCUBE_JWT_ADMIN_TOKEN
+                    value: islandora
+                - name: HYPERCUBE_JWT_PUBLIC_KEY
+                    value: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+                    ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+                    ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+                    sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+                    Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+                    a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+                    rwIDAQAB
+                    -----END PUBLIC KEY-----
+                image: islandora/hypercube:latest
+                name: hypercube
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"matomo"},"name":"matomo","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"matomo"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"matomo"}},"spec":{"containers":[{"env":[{"name":"MATOMO_DB_PASSWORD","value":"password"},{"name":"MATOMO_DB_ROOT_PASSWORD","value":"password"},{"name":"MATOMO_SITE_HOST","value":"islandora.idc.localhost"},{"name":"MATOMO_SITE_TIMEZONE","value":"America/Halifax"},{"name":"MATOMO_USER_EMAIL","value":"admin@example.org"},{"name":"MATOMO_USER_PASS","value":"$2y$10$S38e7HPM9LI3aOIvcnRsfuMCm4ipNP572QsvbCK60upoHVJ61hMrS"}],"image":"islandora/matomo:latest","name":"matomo","resources":{},"volumeMounts":[{"mountPath":"/var/www/matomo","name":"matomo-config-data"}]}],"restartPolicy":"Always","volumes":[{"name":"matomo-config-data","persistentVolumeClaim":{"claimName":"matomo-config-data"}}]}}},"status":{}}
+            labels:
+            app: matomo
+            name: matomo
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: matomo
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: matomo
+            spec:
+                containers:
+                - env:
+                - name: MATOMO_DB_PASSWORD
+                    value: password
+                - name: MATOMO_DB_ROOT_PASSWORD
+                    value: password
+                - name: MATOMO_SITE_HOST
+                    value: islandora.idc.localhost
+                - name: MATOMO_SITE_TIMEZONE
+                    value: America/Halifax
+                - name: MATOMO_USER_EMAIL
+                    value: admin@example.org
+                - name: MATOMO_USER_PASS
+                    value: $2y$10$S38e7HPM9LI3aOIvcnRsfuMCm4ipNP572QsvbCK60upoHVJ61hMrS
+                image: islandora/matomo:latest
+                name: matomo
+                resources: {}
+                volumeMounts:
+                - mountPath: /var/www/matomo
+                    name: matomo-config-data
+                restartPolicy: Always
+                volumes:
+                - name: matomo-config-data
+                persistentVolumeClaim:
+                    claimName: matomo-config-data
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"milliner"},"name":"milliner","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"milliner"}},"strategy":{},"template":{"metadata":{"labels":{"app":"milliner"}},"spec":{"containers":[{"image":"islandora/milliner:latest","name":"milliner","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: milliner
+            name: milliner
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: milliner
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: milliner
+            spec:
+                containers:
+                - image: islandora/milliner:latest
+                name: milliner
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"recast"},"name":"recast","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"recast"}},"strategy":{},"template":{"metadata":{"labels":{"app":"recast"}},"spec":{"containers":[{"env":[{"name":"RECAST_JWT_ADMIN_TOKEN","value":"islandora"},{"name":"RECAST_JWT_PUBLIC_KEY","value":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR\nZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w\nARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK\nsk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80\nXrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P\na3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0\nrwIDAQAB\n-----END PUBLIC KEY-----"}],"image":"islandora/recast:latest","name":"recast","resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+            labels:
+            app: recast
+            name: recast
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: recast
+            strategy: {}
+            template:
+            metadata:
+                labels:
+                app: recast
+            spec:
+                containers:
+                - env:
+                - name: RECAST_JWT_ADMIN_TOKEN
+                    value: islandora
+                - name: RECAST_JWT_PUBLIC_KEY
+                    value: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+                    ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+                    ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+                    sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+                    Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+                    a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+                    rwIDAQAB
+                    -----END PUBLIC KEY-----
+                image: islandora/recast:latest
+                name: recast
+                resources: {}
+                restartPolicy: Always
+        status: {}
+        - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"solr"},"name":"solr","namespace":"derek-test"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"solr"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"solr"}},"spec":{"containers":[{"image":"islandora/solr:latest","name":"solr","resources":{},"volumeMounts":[{"mountPath":"/opt/solr/server/solr","name":"solr-data"}]}],"restartPolicy":"Always","volumes":[{"name":"solr-data","persistentVolumeClaim":{"claimName":"solr-data"}}]}}},"status":{}}
+            labels:
+            app: solr
+            name: solr
+            namespace: derek-test
+        spec:
+            replicas: 1
+            selector:
+            matchLabels:
+                app: solr
+            strategy:
+            type: Recreate
+            template:
+            metadata:
+                labels:
+                app: solr
+            spec:
+                containers:
+                - image: islandora/solr:latest
+                name: solr
+                resources: {}
+                volumeMounts:
+                - mountPath: /opt/solr/server/solr
+                    name: solr-data
+                restartPolicy: Always
+                volumes:
+                - name: solr-data
+                persistentVolumeClaim:
+                    claimName: solr-data
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"activemq-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: activemq-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"cantaloupe-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: cantaloupe-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"drupal-claim1","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: drupal-claim1
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"drupal-sites-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: drupal-sites-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"mariadb-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: mariadb-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"mariadb-files","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: mariadb-files
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"matomo-config-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: matomo-config-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+            annotations:
+            kubectl.kubernetes.io/last-applied-configuration: |
+                {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"solr-data","namespace":"derek-test"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}},"status":{}}
+            name: solr-data
+            namespace: derek-test
+        spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+            requests:
+                storage: 100Mi
+        status: {}
+        kind: List
+        metadata: {}
+
+
+As you can see, `kubectl apply -k` will combine all resources into one YAML file, ordering the resources as necessary (the Namespace is the first to be created).
+
 `kubectl delete -k staffpatches/derek` will delete all resources created under `base` as well as the resources created in `staffpatches/derek`.
 
 During test, demo and production deployments, we will never use `staffpatches` as they are intentionally created for individual developer deployments. We recommend that they not be committed to git and instead live on your local workstation.  We might apply it to .gitignore in the future.
