@@ -32,3 +32,14 @@ kubectl delete namespace isle-development
 ```
 
 Future versions of the patches will create and destroy the namespace for you.
+
+## Staff Patches ##
+Sometimes, we need to do things to make stuff work that isn't applicable to other staff or environments. There is a `staffpatches` directory that can house specific changes. Take `staffpatches/derek` as an example. This kustomization.yaml file does the following:
+1. Creates a namspace called `derek-test`
+2. Applies all resources to that namespace
+
+When run as `kubectl apply -k staffpatches/derek`, the kubectl software builds a graph knowing that it needs to create a namespace first then patches `namespace: derek-test` on all resources that are created.
+
+`kubectl delete -k staffpatches/derek` will delete all resources created under `base` as well as the resources created in `staffpatches/derek`.
+
+During test, demo and production deployments, we will never use `staffpatches` as they are intentionally created for individual developer deployments. We recommend that they not be committed to git and instead live on your local workstation.  We might apply it to .gitignore in the future.
